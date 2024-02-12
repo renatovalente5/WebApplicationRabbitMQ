@@ -26,6 +26,9 @@ namespace WebApplicationRabbitMQ.Data.Config
             modelBuilder.Property(e => e.Link)
                 .HasMaxLength(1023);
 
+            modelBuilder.Property(e => e.GameTypeEnumId)
+                .HasColumnType("int");
+
             modelBuilder.Property(e => e.DbStatus)
                 .HasColumnType("bit");
 
@@ -36,6 +39,12 @@ namespace WebApplicationRabbitMQ.Data.Config
                 .IsRequired()
                 .IsRowVersion()
                 .IsConcurrencyToken();
+
+            //FK
+            modelBuilder.HasOne(d => d.GameTypeEnum)
+                .WithMany(p => p.Games)
+                .HasForeignKey(d => d.GameTypeEnumId)
+                .OnDelete(DeleteBehavior.ClientSetNull);
         }
     }
 }

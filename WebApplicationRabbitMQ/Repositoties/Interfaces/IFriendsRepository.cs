@@ -1,4 +1,4 @@
-﻿using WebApplicationRabbitMQ.DTOs.Results;
+﻿using WebApplicationRabbitMQ.DTOs.Response;
 using WebApplicationRabbitMQ.Models;
 
 namespace WebApplicationRabbitMQ.Repositoties.Interfaces

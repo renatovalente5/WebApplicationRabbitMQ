@@ -30,6 +30,8 @@ namespace WebApplicationRabbitMQ
             services.AddScoped<IGamesService, GamesService>();
             services.AddScoped<IFriendsService, FriendsService>();
             services.AddScoped<IUsersService, UsersService>();
+            services.AddScoped<IUsersGamesService, UsersGamesService>();
+
 
             return services;
         }
@@ -41,6 +43,7 @@ namespace WebApplicationRabbitMQ
             services.AddScoped<IGamesRepository, GamesRepository>();
             services.AddScoped<IFriendsRepository, FriendsRepository>();
             services.AddScoped<IUsersRepository, UsersRepository>();
+            services.AddScoped<IUsersGamesRepository, UsersGamesRepository>();
 
             return services;
         }

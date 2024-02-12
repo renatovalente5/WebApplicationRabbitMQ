@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApplicationRabbitMQ.Data.DataContext;
 using WebApplicationRabbitMQ.Data.Entities;
-using WebApplicationRabbitMQ.DTOs.Results;
+using WebApplicationRabbitMQ.DTOs.Response;
 using WebApplicationRabbitMQ.Models;
 using WebApplicationRabbitMQ.Repositoties.Interfaces;
 using WebApplicationRabbitMQ.Services.Interfaces;
@@ -20,6 +20,7 @@ namespace WebApplicationRabbitMQ.Repositoties.Implementation
         }
 
         //Check this Method
+        //Aqui tenho de retornar o FRIEND e não o FriendResponse
         public async Task<List<FriendResponse>> GetAll(string userId)
         {
             //Melhorar isto!

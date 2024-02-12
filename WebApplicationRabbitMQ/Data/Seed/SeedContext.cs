@@ -8,6 +8,7 @@ namespace WebApplicationRabbitMQ.Data.Seed
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.InviteEnumSeed();
+            modelBuilder.GameTypeEnumSeed();
         }
 
         private static void InviteEnumSeed(this ModelBuilder modelBuilder)
@@ -19,6 +20,17 @@ namespace WebApplicationRabbitMQ.Data.Seed
                 new InviteEnum{Id = 3, Name = "Declined"}
             };
             modelBuilder.Entity<InviteEnum>().HasData(values);
+        }
+
+        private static void GameTypeEnumSeed(this ModelBuilder modelBuilder)
+        {
+            var values = new List<GameTypeEnum>
+            {
+                new GameTypeEnum{Id = 1, Name = "Public"},
+                new GameTypeEnum{Id = 2, Name = "OnlyFriends"},
+                new GameTypeEnum{Id = 3, Name = "OnlyByInvite"}
+            };
+            modelBuilder.Entity<GameTypeEnum>().HasData(values);
         }
     }
 }

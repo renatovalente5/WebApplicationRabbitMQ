@@ -1,4 +1,4 @@
-﻿namespace WebApplicationRabbitMQ.DTOs.Results
+﻿namespace WebApplicationRabbitMQ.DTOs.Response
 {
     public class FriendResponse
     {

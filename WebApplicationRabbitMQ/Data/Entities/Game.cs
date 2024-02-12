@@ -2,6 +2,7 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using WebApplicationRabbitMQ.Data.Entities;
 
 namespace WebApplicationRabbitMQ.Models;
 
@@ -19,11 +20,15 @@ public partial class Game
 
     public string? Link { get; set; }
 
+    public int GameTypeEnumId { get; set; }
+
     public bool DbStatus { get; set; }
 
     public DateTime DbCreatedOn { get; set; }
 
     public byte[] RowVersion { get; set; }
+
+    public virtual GameTypeEnum GameTypeEnum { get; set; }
 
     public virtual ICollection<UsersGame> UsersGames { get; set; } = new List<UsersGame>();
 }

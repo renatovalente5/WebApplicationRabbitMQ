@@ -1,5 +1,5 @@
 ﻿using WebApplicationRabbitMQ.DTOs.Requests;
-using WebApplicationRabbitMQ.DTOs.Results;
+using WebApplicationRabbitMQ.DTOs.Response;
 
 namespace WebApplicationRabbitMQ.Services.Implementation
 {

@@ -6,8 +6,8 @@ namespace WebApplicationRabbitMQ.Repositoties.Interfaces
     {
         Task<Game> Create(Game game);
         Task<Game> Delete(int id);
-        Task<IQueryable<Game>> GetAll();
-        Task<Game> GetBy(int id);
+        Task<List<Game>> GetAll(string userId);
+        Task<Game?> GetById(int id);
         Task<Game> Update(Game game);
     }
 }

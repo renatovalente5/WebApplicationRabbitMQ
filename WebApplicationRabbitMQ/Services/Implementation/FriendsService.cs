@@ -1,6 +1,6 @@
 ﻿using WebApplicationRabbitMQ.Data.Entities;
 using WebApplicationRabbitMQ.DTOs.Requests;
-using WebApplicationRabbitMQ.DTOs.Results;
+using WebApplicationRabbitMQ.DTOs.Response;
 using WebApplicationRabbitMQ.Models;
 using WebApplicationRabbitMQ.Repositoties.Interfaces;
 using WebApplicationRabbitMQ.Services.Interfaces;

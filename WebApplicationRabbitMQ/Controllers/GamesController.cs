@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using WebApplicationRabbitMQ.Models;
-using WebApplicationRabbitMQ.Services.Interfaces;
+using WebApplicationRabbitMQ.DTOs.Requests;
+using WebApplicationRabbitMQ.Services.Implementation;
 
 namespace WebApplicationRabbitMQ.Controllers
 {
@@ -22,7 +22,24 @@ namespace WebApplicationRabbitMQ.Controllers
         {
             try
             {
-                var result = await _gamesService.GetAll();
+                var userId = HttpContext.User.Identities.ToList()[0].Claims.ToList()[0].Value;
+                var result = await _gamesService.GetAll(userId);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return new ObjectResult(ex);
+            }
+        }
+
+        [HttpPost, Authorize]
+        [Route("EnterInGame")]
+        public async Task<IActionResult> EnterInGame(int gameId)
+        {
+            try
+            {
+                var userId = HttpContext.User.Identities.ToList()[0].Claims.ToList()[0].Value;
+                var result = await _gamesService.EnterInGame(userId, gameId);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -48,11 +65,12 @@ namespace WebApplicationRabbitMQ.Controllers
 
         [HttpPost, Authorize]
         [Route("Create")]
-        public async Task<IActionResult> Create(Game request)
+        public async Task<IActionResult> Create(GameRequest request)
         {
             try
             {
-                var result = await _gamesService.Create(request);
+                var userId = HttpContext.User.Identities.ToList()[0].Claims.ToList()[0].Value;
+                var result = await _gamesService.Create(userId, request);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -63,7 +81,7 @@ namespace WebApplicationRabbitMQ.Controllers
 
         [HttpPut, Authorize]
         [Route("Update")]
-        public async Task<IActionResult> Update(Game request)
+        public async Task<IActionResult> Update(GameRequest request)
         {
             try
             {

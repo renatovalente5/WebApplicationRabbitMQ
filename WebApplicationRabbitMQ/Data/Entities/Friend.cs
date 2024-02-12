@@ -21,5 +21,6 @@ public partial class Friend
     public DateTime DbCreatedOn { get; set; }
 
     public byte[] RowVersion { get; set; }
+
     public virtual InviteEnum InviteEnum { get; set; }
 }

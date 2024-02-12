@@ -59,6 +59,8 @@ builder.Services.AddDatabaseDependencies(builder.Configuration);
 builder.Services.AddServicesDependencies(builder.Configuration);
 builder.Services.AddRepositoriesDependencies();
 
+AutoMapperConfiguration.Configure();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
