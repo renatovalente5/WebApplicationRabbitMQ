@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 using WebApplicationRabbitMQ.DTOs.Requests;
+using WebApplicationRabbitMQ.Models;
 using WebApplicationRabbitMQ.Services.Implementation;
 
 namespace WebApplicationRabbitMQ.Controllers
@@ -17,13 +19,14 @@ namespace WebApplicationRabbitMQ.Controllers
         }
 
         [HttpGet, Authorize]
+        //[SwaggerOData]
         [Route("GetAll")]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(ODataQueryOptions<Friend> options)
         {
             try
             {
                 var userId = HttpContext.User.Identities.ToList()[0].Claims.ToList()[0].Value;
-                var result = await _friendsService.GetAll(userId);
+                var result = await _friendsService.GetAll(userId, options);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -48,37 +51,6 @@ namespace WebApplicationRabbitMQ.Controllers
             }
         }
 
-        [HttpGet, Authorize]
-        [Route("PendingInvites")]
-        public async Task<IActionResult> PendingInvites()
-        {
-            try
-            {
-                var userId = HttpContext.User.Identities.ToList()[0].Claims.ToList()[0].Value;
-                var result = await _friendsService.PendingInvites(userId);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return new ObjectResult(ex);
-            }
-        }
-
-        [HttpGet, Authorize]
-        [Route("SendedInvites")]
-        public async Task<IActionResult> SendedInvites()
-        {
-            try
-            {
-                var userId = HttpContext.User.Identities.ToList()[0].Claims.ToList()[0].Value;
-                var result = await _friendsService.SendedInvites(userId);
-                return Ok(result);
-            }
-            catch (Exception ex)
-            {
-                return new ObjectResult(ex);
-            }
-        }
 
         [HttpPost, Authorize]
         [Route("CancelInvite")]

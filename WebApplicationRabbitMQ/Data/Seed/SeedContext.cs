@@ -17,7 +17,8 @@ namespace WebApplicationRabbitMQ.Data.Seed
             {
                 new InviteEnum{Id = 1, Name = "Pending"},
                 new InviteEnum{Id = 2, Name = "Accepted"},
-                new InviteEnum{Id = 3, Name = "Declined"}
+                new InviteEnum{Id = 3, Name = "Declined"},
+                new InviteEnum{Id = 4, Name = "Removed"}
             };
             modelBuilder.Entity<InviteEnum>().HasData(values);
         }

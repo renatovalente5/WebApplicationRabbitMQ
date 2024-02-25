@@ -45,6 +45,7 @@ builder.Services.AddSwaggerGen(options =>
     });
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
+    //options.OperationFilter<SwaggerODataFilter>();
 });
 
 //builder.Services.AddDbContext<DataContext>(options =>

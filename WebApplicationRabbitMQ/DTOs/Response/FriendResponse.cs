@@ -3,5 +3,6 @@
     public class FriendResponse
     {
         public string Name { get; set; }
+        public string InviteEnum { get; set; }
     }
 }

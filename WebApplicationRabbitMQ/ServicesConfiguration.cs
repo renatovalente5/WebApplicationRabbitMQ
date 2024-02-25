@@ -13,7 +13,7 @@ namespace WebApplicationRabbitMQ
         public static IServiceCollection AddDatabaseDependencies(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<DataContext>(options =>
-                           options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking));
+                           options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")).UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking), ServiceLifetime.Transient);
             return services;
         }
         public static IServiceCollection AddServicesDependencies(this IServiceCollection services, IConfiguration configuration)

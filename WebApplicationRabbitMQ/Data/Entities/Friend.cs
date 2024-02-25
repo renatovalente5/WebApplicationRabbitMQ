@@ -2,12 +2,14 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using WebApplicationRabbitMQ.Data.Entities;
 
 namespace WebApplicationRabbitMQ.Models;
 
 public partial class Friend
 {
+    [Key]
     public int Id { get; set; }
 
     public string UserId { get; set; }

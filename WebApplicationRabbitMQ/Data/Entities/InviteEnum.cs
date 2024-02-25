@@ -19,6 +19,8 @@ namespace WebApplicationRabbitMQ.Data.Entities
         [EnumMember(Value = "Accepted")]
         Accepted = 2,
         [EnumMember(Value = "Declined")]
-        Declined = 3
+        Declined = 3,
+        [EnumMember(Value = "Removed")]
+        Removed = 4
     }
 }

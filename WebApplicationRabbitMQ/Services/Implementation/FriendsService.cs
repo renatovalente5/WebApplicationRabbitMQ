@@ -1,4 +1,6 @@
-﻿using WebApplicationRabbitMQ.Data.Entities;
+﻿using Microsoft.AspNetCore.OData.Query;
+using Microsoft.EntityFrameworkCore;
+using WebApplicationRabbitMQ.Data.Entities;
 using WebApplicationRabbitMQ.DTOs.Requests;
 using WebApplicationRabbitMQ.DTOs.Response;
 using WebApplicationRabbitMQ.Models;
@@ -18,9 +20,24 @@ namespace WebApplicationRabbitMQ.Services.Implementation
             _usersService = usersService;
         }
 
-        public async Task<List<FriendResponse>> GetAll(string userId)
+        public async Task<List<FriendResponse>> GetAll(string userId, ODataQueryOptions<Friend> options)
         {
-            return await _friendsRepository.GetAll(userId);
+            IQueryable<Friend> query = _friendsRepository.GetAll(userId)
+                .Where(x => (x.UserId == userId || x.FriendId == userId) && x.DbStatus == true);
+
+            var result = options.ApplyTo(query) is IQueryable<Friend> dataFiltered ? await dataFiltered.ToListAsync() : new List<Friend>();
+
+            var resultFinal = result
+                .Select(async x => new FriendResponse
+                {
+                    Name = _usersService.GetById(x.FriendId).Result?.UserName ?? "Unknown",
+                    InviteEnum = ((InviteEnumValues)x.InviteEnumId).ToString(),
+                })
+                .ToList();
+
+            var final = await Task.WhenAll(resultFinal);
+
+            return final.ToList();
         }
 
         public async Task<FriendResponse> SendInvite(string userId, FriendRequest request)
@@ -51,32 +68,6 @@ namespace WebApplicationRabbitMQ.Services.Implementation
             return new FriendResponse { Name = request.UserName };
         }
 
-        public async Task<List<FriendResponse>> PendingInvites(string userId)
-        {
-            var pendingInvites = await _friendsRepository.PendingInvites(userId);
-            var filterPendingInvites = pendingInvites
-                .Select(x => new FriendResponse
-                {
-                    Name = _usersService.GetById(x.UserId).Result.UserName //Ver este Warming!
-                })
-                .ToList();
-
-            return filterPendingInvites;
-        }
-
-        public async Task<List<FriendResponse>> SendedInvites(string userId)
-        {
-            var sendedInvites = await _friendsRepository.SendedInvites(userId);
-            var filterSendedInvites = sendedInvites
-                .Select(x => new FriendResponse
-                {
-                    Name = _usersService.GetById(x.FriendId).Result?.UserName ?? "Unknown" //Ver este Warming!
-                })
-                .ToList();
-
-            return filterSendedInvites;
-        }
-
         public async Task<FriendResponse> CancelInvite(string userId, string friendName)
         {
             var friend = await _usersService.GetByName(friendName);
@@ -91,7 +82,7 @@ namespace WebApplicationRabbitMQ.Services.Implementation
                 throw new Exception($"The user is already a friend of {friendName}.");
             }
 
-            var getPendentInvite = await _friendsRepository.MyPendentInvite(userId, friend.Id);
+            var getPendentInvite = await _friendsRepository.GetInvite(userId, friend.Id);
             if (getPendentInvite == null)
             {
                 throw new Exception($"There is no pending invitation for {friendName}."); //Isto não devia nunca acontecer.
@@ -117,7 +108,7 @@ namespace WebApplicationRabbitMQ.Services.Implementation
                 throw new Exception($"The user is already a friend of {friendName}.");
             }
 
-            var cheackIfPendentInvite = await _friendsRepository.MyPendentInvite(friend.Id, userId);
+            var cheackIfPendentInvite = await _friendsRepository.GetInvite(friend.Id, userId);
             if (cheackIfPendentInvite == null)
             {
                 throw new Exception($"There is no pending invitation for {friendName}."); //Isto não devia nunca acontecer.

@@ -1,5 +1,4 @@
-﻿using WebApplicationRabbitMQ.Data.Entities;
-using WebApplicationRabbitMQ.DTOs.Requests;
+﻿using WebApplicationRabbitMQ.DTOs.Requests;
 using WebApplicationRabbitMQ.DTOs.Response;
 using WebApplicationRabbitMQ.Models;
 using WebApplicationRabbitMQ.Repositoties.Interfaces;
@@ -20,7 +19,7 @@ namespace WebApplicationRabbitMQ.Services.Implementation
             _friendsService = friendsService;
         }
 
-        public async Task<IEnumerable<Game>> GetAll(string userId)
+        public async Task<IEnumerable<Game>> GetAll(string userId) //, ODataQueryOptions<Friend> options)
         {
             //var a = _gamesRepository.GetAll(userId);
             //var b = a.Where(x => x)
@@ -43,18 +42,18 @@ namespace WebApplicationRabbitMQ.Services.Implementation
                 throw new Exception("You are already in the game.");
             }
 
-            //if the game is OnlyFriends, check if the user is friend of the creator
-            if (game.GameTypeEnumId == (int)GameTypeValues.OnlyFriends)
-            {
-                var getFriends = await _friendsService.GetAll(userId);
-                //convert getFriends in a list of UserNames
+            ////if the game is OnlyFriends, check if the user is friend of the creator
+            //if (game.GameTypeEnumId == (int)GameTypeValues.OnlyFriends)
+            //{
+            //    var getFriends = await _friendsService.GetAll(userId, null);
+            //    //convert getFriends in a list of UserNames
 
-                var getCreator = await _usersGamesService.GetByGameId(gameId);
-                if (getFriends.Contains(getCreator)) //Somethins Like this!
-                {
+            //    var getCreator = await _usersGamesService.GetByGameId(gameId);
+            //    if (getFriends.Contains(getCreator)) //Somethings Like this!
+            //    {
 
-                }
-            }
+            //    }
+            //}
 
 
             var gameNumPlayers = game.NumPlayers;
